@@ -17,7 +17,7 @@ next:
 The performance of your IBM® Streams Runner for Apache Beam application is
 affected by options and configuration parameters given to both the runner
 and the IBM Streams instance where your application is deployed.
-understanding how these work will help you get the best performance.
+Understanding how these work will help you get the best performance.
 
 ## Bundling elements
 
