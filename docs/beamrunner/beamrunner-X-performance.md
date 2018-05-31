@@ -32,7 +32,8 @@ The IBM Streams Runner for Apache Beam pipeline options `--bundleSize` and
 the runner to create bundles of a maximum number of elements, or after a
 maximum time delay, or both.
 
-For more information on these options, see the [Reference](../beamrunner-6-ref/).
+For more information on these options, see [Streams Runner pipeline
+options](../beamrunner-6-ref/#streams-runner-pipeline-options).
 
 ## Parallelism
 
@@ -58,14 +59,16 @@ option `--parallelWidths=4,Serial=1,VeryParallel=8` would disable
 parallelism for `Serial` while using higher parallelism for `VeryParallel`
 than the rest of the application.
 
-For more information on this option, see the [Reference](../beamrunner-6-ref/).
+For more information on this option, see [Streams Runner pipeline
+options](../beamrunner-6-ref/#streams-runner-pipeline-options).
 
 When the runner launches the application it will set the IBM Streams
 operator `fusionType` to `channelIsolation`. To change the fusion type use
 the pipeline option `--contextType=BUNDLE` to create your application
-bundle and set the fusion type when submitting the bundle. See
-[Using the runner](../beamrunner-3-using/) for more information about
-`--contextType=BUNDLE` and [Operator fusion in parallel regions **FIX
+bundle and set the fusion type when submitting the bundle. See [The
+`BUNDLE` Context](../beamrunner-3-using/#the-bundle-context) for more
+information about `--contextType=BUNDLE` and [Operator fusion in parallel
+regions **FIX
 LINK**](http://leto.svl.ibm.com:9343/help/topic/com.ibm.streams.dev.doc/doc/udpsplpartconfig.html)
 for more information on fusion configuration.
 
@@ -84,8 +87,9 @@ options while you are developing and debugging your application, remove
 them or set them back to the defaults when deploying your application in
 production.
 
-More documentation about tracing options and levels can be found in the
-[Reference](../beamrunner-6-ref/).
+More documentation about tracing options and levels can be found in
+[Streams Runner pipeline
+options](../beamrunner-6-ref/#streams-runner-pipeline-options).
 
 ## IBM Streams performance
 
