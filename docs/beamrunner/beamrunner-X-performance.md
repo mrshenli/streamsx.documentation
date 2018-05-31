@@ -32,15 +32,16 @@ The IBM Streams Runner for Apache Beam pipeline options `--bundleSize` and
 the runner to create bundles of a maximum number of elements, or after a
 maximum time delay, or both.
 
-For more information on these options, see the [beamrunner-6-ref](Reference).
+For more information on these options, see the [Reference](beamrunner-6-ref).
 
 ## Parallelism
 
 Parallelism is a key concept in Apache Beam and many transforms are able to
 process elements in parallel. The IBM Streams Runner for Apache Beam has
 experimental support for parallelism using the `--parallelWidths` pipeline
-option. The runner will then use IBM Streams user-defined parallelism when
-translating and running your application.
+option. Using this option allows the runner to take advantage of IBM
+Streams user-defined parallelism when translating and running your
+application.
 
 The simplest way to enable parallelism for your application is to set a
 default width for the entire application, for example `--parallelWidth=4`
@@ -57,16 +58,16 @@ option `--parallelWidths=4,Serial=1,VeryParallel=8` would disable
 parallelism for `Serial` while using higher parallelism for `VeryParallel`
 than the rest of the application.
 
-For more information on this option, see [beamrunner-6-ref](Reference).
+For more information on this option, see the [Reference](beamrunner-6-ref).
 
 When the runner launches the application it will set the IBM Streams
 operator `fusionType` to `channelIsolation`. To change the fusion type use
 the pipeline option `--contextType=BUNDLE` to create your application
 bundle and set the fusion type when submitting the bundle. See
-[beamrunner-3-using](Using the runner) for more information about
-`--contextType=BUNDLE` and [http://leto.svl.ibm.com:9343/help/topic/com.ibm.streams.dev.doc/doc/udpsplpartconfig.html](Operator
-fusion in parallel regions **FIX LINK**) for more information on fusion
-configuration.
+[Using the runner](beamrunner-3-using) for more information about
+`--contextType=BUNDLE` and [Operator fusion in parallel regions **FIX
+LINK**](http://leto.svl.ibm.com:9343/help/topic/com.ibm.streams.dev.doc/doc/udpsplpartconfig.html)
+for more information on fusion configuration.
 
 Note that IBM Streams Runner for Apache Beam does not allow changing the
 degree of parallelism at submission time or at run time.
@@ -82,6 +83,9 @@ If you set tracing levels other than the defaults with any of the
 options while you are developing and debugging your application, remove
 them or set them back to the defaults when deploying your application in
 production.
+
+More documentation about tracing options and levels can be found in the
+[beamrunner-6-ref](Reference).
 
 ## IBM Streams performance
 
