@@ -59,7 +59,7 @@ option `--parallelWidths=4,Serial=1,VeryParallel=8` would disable
 parallelism for `Serial` while using higher parallelism for `VeryParallel`
 than the rest of the application.
 
-`PCollection`s of [`KV`](https://github.com/apache/beam/blob/release-2.4.0/sdks/java/core/src/main/java/org/apache/beam/sdk/values/KV.java) elements are partitioned based on keys. The same key will always go into
+`PCollection`s of [`KV`](https://beam.apache.org/documentation/sdks/javadoc/2.4.0/org/apache/beam/sdk/values/KV.html) elements are partitioned based on keys. The same key will always go into
 the same parallel channel, guaranteeing that keyed states are correctly
 handled. `PCollections` of other types are partitioned using the round-robin
 scheme. It is applications' responsibility to balance workloads across keys.
@@ -67,10 +67,10 @@ Skewed workloads can overwhelm hot keys and hamper performance. Since the
 value of keys are determined by applications, the runner cannot easily
 detect or predict keys. If a `PCollection` contains fewer keys than the
 parallel width, some parallel channels will stay idle, wasting system
-resources. One special case is a `PCollection` using `Void` key. In this
+resources. One special case is a `PCollection` using the `Void` key. In this
 situation, the runner can identify that there is only one global key and
 run the transform in a non-parallelized form. The following code snippet
-demonstrates an example. As the `AddKey` transform add the same `Void` key
+demonstrates an example. As the `AddKey` transform adds the same `Void` key
 to all elements, the downstream `GBK` cannot run in parallel. If a user
 specifies a parallel width (greater than 1) for the entire pipeline, the
 runner may silently ignore the parallel width for the section of the pipeline
@@ -85,15 +85,15 @@ p.apply("Source", GenerateSequence.from(0))
  .apply("GBK", GroupByKey.create());
 ```
 
-For [`Source`](https://github.com/apache/beam/blob/release-2.4.0/sdks/java/core/src/main/java/org/apache/beam/sdk/io/Source.java)
+For [`Source`](https://beam.apache.org/documentation/sdks/javadoc/2.4.0/org/apache/beam/sdk/io/Source.html)
 transforms, the runner attempts to match the configured parallel width
-by splitting the source into sub-sources using the [`UnboundedSource#split`](https://github.com/apache/beam/blob/release-2.4.0/sdks/java/core/src/main/java/org/apache/beam/sdk/io/UnboundedSource.java#L68) or [`BoundedSource#split`](https://github.com/apache/beam/blob/release-2.4.0/sdks/java/core/src/main/java/org/apache/beam/sdk/io/BoundedSource.java#L57) method. Applications need to make sure
+by splitting the source into sub-sources using the [`UnboundedSource#split`](https://beam.apache.org/documentation/sdks/javadoc/2.4.0/org/apache/beam/sdk/io/UnboundedSource.html) or [`BoundedSource#split`](https://beam.apache.org/documentation/sdks/javadoc/2.4.0/org/apache/beam/sdk/io/BoundedSource.html) method. Applications need to make sure
 that the source implementation supports `split` properly. If the number
-of sub-sources returned by `split` disagrees with parallel width, the
-source parallel width is set to smaller value of the specified width and
-the number of sub-sources. If there were more sub-sources than the specified
+of sub-sources returned by `split` disagrees with the parallel width, the
+source parallel width is set to the smaller value of the specified width and
+the number of sub-sources. If there are more sub-sources than the specified
 width, the runner will allocate sub-sources to parallel channels in a
-round-robin fashion and one parallel channel could contain multiple
+round-robin fashion and one parallel channel can contain multiple
 sub-source instances. To get the best performance, the number of sub-sources
 should match the expected parallel width.
 
