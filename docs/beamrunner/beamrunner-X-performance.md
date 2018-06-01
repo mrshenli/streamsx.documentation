@@ -59,7 +59,7 @@ option `--parallelWidths=4,Serial=1,VeryParallel=8` would disable
 parallelism for `Serial` while using higher parallelism for `VeryParallel`
 than the rest of the application.
 
-`PCollection`s of [`KV`](https://github.com/apache/beam/blob/release-2.4.0/sdks/java/core/src/main/java/org/apache/beam/sdk/values/KV.java) elements are partitioned based on keys. The same key always goes into
+`PCollection`s of [`KV`](https://github.com/apache/beam/blob/release-2.4.0/sdks/java/core/src/main/java/org/apache/beam/sdk/values/KV.java) elements are partitioned based on keys. The same key will always go into
 the same parallel channel, guaranteeing that keyed states are correctly
 handled. `PCollections` of other types are partitioned using the round-robin
 scheme. It is applications' responsibility to balance workloads across keys.
@@ -71,10 +71,11 @@ resources. One special case is a `PCollection` using `Void` key. In this
 situation, the runner can identify that there is only one global key and
 run the transform in a non-parallelized form. The following code snippet
 demonstrates an example. As the `AddKey` transform add the same `Void` key
-to all elements, the downstream `GBK` cannot run in parallel. If the
-application explicitly specifies a parallel width (greater than 1) for
-`GBK`, please expect the runner to print a warning message and ignores
-the parallelism requirement on the `GBK` transform.
+to all elements, the downstream `GBK` cannot run in parallel. If a user
+specifies a parallel width (greater than 1) for the entire pipeline, the
+runner may silently ignore the parallel width for the section of the pipeline
+that uses the `Void` keys. If a user explicitly specifies a parallel width
+for the `GBK` in the example, the runner, again, may ignore the specified width.
 
 ```java
 Pipeline p = Pipeline.create(options);
