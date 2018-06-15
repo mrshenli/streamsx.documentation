@@ -10,18 +10,18 @@ prev:
   file: beamrunner-2-install
   title: Installing
 next:
-  file: release/1.1.1/using
+  file: using
   title: Using
 ---
 
 Installing IBM® Streams Runner for Apache Beam involves downloading and extracting the Streams Runner toolkit, configuring environment variables, and creating a credentials file for your Streaming Analytics service. You don't need to install IBM Streams to use Streams Runner.
 
-## Before you start: develop your application
-Apache Beam applications can be developed without the Streams Runner being installed. For information about developing your Beam application, see the [Beam SDK for Java](https://beam.apache.org/documentation/sdks/java/).
+## Before you start
+The Streaming Analytics installation of Streams Runner supports Apache Beam 2.4 applications, so your application must use the [version 2.4 Java API](https://beam.apache.org/documentation/sdks/javadoc/2.4.0/)
 
 ## Before you execute
 
-A Red Hat Enterprise Linux 6 or 7 environment is recommended for submitting Apache Beam 2.4 applications to the Streaming Analytics service in IBM Cloud (formerly IBM Bluemix).
+A Red Hat Enterprise Linux 7 environment is recommended for submitting Beam applications to the Streaming Analytics service in IBM Cloud (formerly IBM Bluemix).
 
 ## Creating a Streaming Analytics service on IBM Cloud
 
@@ -36,6 +36,8 @@ Before you can download Streams Runner, you must have a Streaming Analytics serv
 3. Use the **Filter** option to search for Streaming Analytics.
 4. Click the **Streaming Analytics** service to configure an instance.
 5. On the catalog page for the Streaming Analytics service, change **Service name** to something meaningful to you, for example, `Streaming Analytics-beam`.
+6. Select a Pricing Plan
+    1. **Important**: To obtain the latest Streams Runner version, select a container-based plan like 'Lite' or 'Entry Container Hourly'
 6. Click **Create**. The service page opens and your service starts automatically. The service name appears as the title of the service page.
 
 For more information about the Streaming Analytics service, see [Introduction to the Bluemix Streaming Analytics Service](https://developer.ibm.com/streamsdev/docs/streaming-analytics-now-available-bluemix-2/).
@@ -53,15 +55,15 @@ The following video demonstrates how to download and install the Streams Runner 
     1. Select **Save File**, specify a location if necessary, and click **OK**.
 1. Extract the toolkit by entering the following command where you downloaded the file:
 ```bash
-tar -zxvf com.ibm.streams.beam-1.2.0.tar.gz
+tar -zxvf com.ibm.streams.beam-1.1.1.tar.gz
 ```
 1. (Optional) Configure the environment variables. Although the variables are not required, the documentation refers to them for convenience. If you do not set the environment variables, you must use the full paths when you run the sample applications.
     1. Navigate to the `samples` directory in the expanded toolkit, and set up environment variables for the runner:
     ```bash
-    cd com.ibm.streams.beam-1.2.0/samples
+    cd com.ibm.streams.beam-1.1.1/samples
     . bin/streams-runner-env.sh
     ```
-    1. Set the environment variables `VCAP_SERVICES` to point to the VCAP file that contains your Streaming Analytics service credentials and `STREAMING_ANALYTICS_SERVICE_NAME` to the service name within that file. For example: 
+    1. Set the environment variables `VCAP_SERVICES` to point to the VCAP file that contains your Streaming Analytics service credentials and `STREAMING_ANALYTICS_SERVICE_NAME` to the service name within that file. For example:
     ```bash
     export VCAP_SERVICES=$HOME/sample.vcap
     export STREAMING_ANALYTICS_SERVICE_NAME="sample-service"
@@ -70,7 +72,7 @@ tar -zxvf com.ibm.streams.beam-1.2.0.tar.gz
 
 ## Validating the Streams Runner installation
 
-The Streams Runner relies on preserving the `com.ibm.streams.beam` directory structure. To verify an installation, ensure that the `translation` and `sdk` JAR files appear as follows when you enter the following command:
+Streams Runner relies on preserving the `com.ibm.streams.beam` directory structure. To verify an installation, ensure that the `translation` and `sdk` JAR files appear as follows when you enter the following command:
 ```bash
 ls $STREAMS_BEAM_TOOLKIT/lib
 ```
@@ -80,7 +82,7 @@ ls $STREAMS_BEAM_TOOLKIT/lib
 
 The Streams Runner directory tree structure:
 ```
-com.ibm.streams.beam-1.2.0/
+com.ibm.streams.beam-x.y.z/
 | - template.vcap
 | - README.html
 | - README.md

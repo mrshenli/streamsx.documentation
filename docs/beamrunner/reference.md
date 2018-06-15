@@ -5,7 +5,7 @@ navtitle: Reference
 description:  Learn about the package contents and pipeline options for IBM® Streams Runner for Apache Beam.
 weight:  10
 published: true
-tag: beam-120
+tag: beam
 prev:
   file: monitor
   title: Monitoring
@@ -56,7 +56,7 @@ The Streams Runner package contains the following folders:
     </tr>
     <tr>
       <td><code class="highlighter-rouge">jarsToStage</code></td>
-      <td>A list of JAR files (separated by colons) that are required to run the Apache Beam application. Include the JAR files that contain your program and any dependencies. (You don’t need to include Beam Google IO SDK or core Beam JAR files.) The listed JAR files are added to the SAB file.<br /><br /><strong>Note</strong>: The use of fat or uber JAR files can reduce the number of JAR files that must be specified, but take care not to include JAR files that are provided by the Streams Runner. Including redundant dependencies can increase the application archive and can negatively impact submission times to IBM Cloud.</td>
+      <td>A list of JAR files (separated by colons) that are required to run the Apache Beam application. Include the JAR files that contain your program and any dependencies. (You don’t need to include Beam Google IO SDK or core Beam JAR files.) The listed JAR files are added to the SAB file.<br /><br /><strong>Note</strong>: The use of fat or uber JAR files can reduce the number of JAR files that must be specified, but take care not to include JAR files that are provided by Streams Runner. Including redundant dependencies can increase the application archive and can negatively impact submission times to IBM Cloud.</td>
       <td>[null]</td>
     </tr>
     <tr>
@@ -100,7 +100,7 @@ For the full list of pipeline options, enter  `--help=StreamsPipelineOptions` on
 | `userPassword` | The user password for basic authentication for REST API when you use the `DISTRIBUTED` context type. | [null] |
 
 ## Environment Variables
-These environment variables are not required for the Streams Runner to work; however, they can be used for convenience when you launch your Beam application.
+These environment variables are not required for Streams Runner to work; however, they can be used for convenience when you launch your Beam application.
   <table>
     <thead>
       <tr>
@@ -112,7 +112,7 @@ These environment variables are not required for the Streams Runner to work; how
     <tbody>
       <tr>
         <td>STREAMS_RUNNER_HOME</td>
-        <td>The absolute path to the extraction location of the <code class="highlighter-rouge">com.ibm.streams.beam-1.2.0</code> directory</td>
+        <td>The absolute path to the extraction location of the <code class="highlighter-rouge">com.ibm.streams.beam-x.y.z</code> directory</td>
         <td>Set by using one of the following methods:
         <ul><li>Source the <code class="highlighter-rouge">$STREAMS_RUNNER_HOME/samples/bin/streams-runner-env.sh</code> file.</li>
         <li>Use the  <code class="highlighter-rouge">export</code> command.</li></ul></td>
@@ -126,7 +126,7 @@ These environment variables are not required for the Streams Runner to work; how
       </tr>
       <tr>
         <td>VCAP_SERVICES</td>
-        <td>The path to the IBM Cloud credentials file. If this environment variable is set, the <code class="highlighter-rouge">--vcapServices</code> parameter does not need to be specified on the command line.<br /><br />For more information about the credentials file, see <a href="#creating-a-credentials-file-for-your-streaming-analytics-service">Creating a credentials file for your Streaming Analytics service</a>.</td>
+        <td>The path to the IBM Cloud credentials file. If this environment variable is set, the <code class="highlighter-rouge">--vcapServices</code> parameter does not need to be specified on the command line.<br /><br />For more information about the credentials file, see <a href="../../../beamrunner-2b-sas/#creating-a-credentials-file-for-your-streaming-analytics-service">Creating a credentials file for your Streaming Analytics service</a>.</td>
         <td>Set by using the <code class="highlighter-rouge">export</code> command.</td>
       </tr>
       <tr>
@@ -141,9 +141,8 @@ These environment variables are not required for the Streams Runner to work; how
       </tr>
     </tbody>
   </table>
-
 ## Apache Beam SDK for Java
 See Beam's [Java API Reference](https://beam.apache.org/documentation/sdks/javadoc/2.4.0/) for information on application APIs.
 
 ## Streams Runner SDK API Reference
-See the [javadoc](../beamrunner/release/1.2.0/javadoc/index.html) for more information.
+See the [javadoc](../release/1.2/javadoc/index.html) for more information.
