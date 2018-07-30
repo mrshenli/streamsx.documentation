@@ -56,7 +56,7 @@ The Streams Runner package contains the following directories:
     </tr>
     <tr>
       <td><code class="highlighter-rouge">jarsToStage</code></td>
-      <td>A list of JAR files (separated by colons) that are required to run the Apache Beam application. Include the JAR files that contain your program and any dependencies. (You don’t need to include Beam Google IO SDK or core Beam JAR files.) The listed JAR files are added to the SAB file. Globs (wildcards) may be used to specify files (e.g., <code class="highlighter-rouge">foo/bar/\*.jar</code>). However, globs in directory paths are not supported (e.g., <code class="highlighter-rouge">\*\*/\*.jar</code>).<br /><br /><strong>Note</strong>: The use of fat or uber JAR files can reduce the number of JAR files that must be specified, but take care not to include JAR files that are provided by Streams Runner. Including redundant dependencies can increase the application archive and can negatively impact submission times to IBM Cloud.</td>
+      <td>A list of JAR files (separated by colons) that are required to run the Apache Beam application. Include the JAR files that contain your program and any dependencies. (You don’t need to include Beam Google IO SDK or core Beam JAR files.) The listed JAR files are added to the SAB file. Globs (wildcards) may be used to specify files (e.g., <code class="highlighter-rouge">`foo/bar/*.jar`</code>). However, globs in directory paths are not supported (e.g., <code class="highlighter-rouge">`**/*.jar`</code>).<br /><br /><strong>Note</strong>: The use of fat or uber JAR files can reduce the number of JAR files that must be specified, but take care not to include JAR files that are provided by Streams Runner. Including redundant dependencies can increase the application archive and can negatively impact submission times to IBM Cloud.</td>
       <td>[null]</td>
     </tr>
     <tr>
@@ -134,7 +134,7 @@ These environment variables are not required for Streams Runner to work; however
         <td>STREAMS_RUNNER_HOME</td>
         <td>The absolute path to the extraction location of the `com.ibm.streams.beam-<runner-version>` directory, where `<runner-version>` is the version of Streams Runner</td>
         <td>Set by using one of the following methods:
-        <ul><li>Source the `$STREAMS_RUNNER_HOME/examples/bin/streams-runner-env.sh` file.</li>
+        <ul><li>Source the <code class="highlighter-rouge">$STREAMS_RUNNER_HOME/examples/bin/streams-runner-env.sh</code> file.</li>
         <li>Use the  <code class="highlighter-rouge">export</code> command.</li></ul></td>
       </tr>
       <tr>
