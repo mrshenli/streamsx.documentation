@@ -56,7 +56,7 @@ The Streams Runner package contains the following directories:
     </tr>
     <tr>
       <td><code class="highlighter-rouge">jarsToStage</code></td>
-      <td>A list of JAR files (separated by colons) that are required to run the Apache Beam application. Include the JAR files that contain your program and any dependencies. (You don’t need to include Beam Google IO SDK or core Beam JAR files.) The listed JAR files are added to the SAB file.<br /><br /><strong>Note</strong>: The use of fat or uber JAR files can reduce the number of JAR files that must be specified, but take care not to include JAR files that are provided by Streams Runner. Including redundant dependencies can increase the application archive and can negatively impact submission times to IBM Cloud.</td>
+      <td>A list of JAR files (separated by colons) that are required to run the Apache Beam application. Include the JAR files that contain your program and any dependencies. (You don’t need to include Beam Google IO SDK or core Beam JAR files.) The listed JAR files are added to the SAB file. Globs (wildcards) may be used to specify files (e.g., <code class="highlighter-rouge">foo/bar/\*.jar</code>). However, globs in directory paths are not supported (e.g., <code class="highlighter-rouge">\*\*/\*.jar</code>).<br /><br /><strong>Note</strong>: The use of fat or uber JAR files can reduce the number of JAR files that must be specified, but take care not to include JAR files that are provided by Streams Runner. Including redundant dependencies can increase the application archive and can negatively impact submission times to IBM Cloud.</td>
       <td>[null]</td>
     </tr>
     <tr>
@@ -71,13 +71,33 @@ The Streams Runner package contains the following directories:
     </tr>
     <tr>
       <td><code class="highlighter-rouge">tracingLevel</code></td>
-      <td>Set the tracing and logging level of StreamsRunner translation and runtime. Levels: <code class="highlighter-rouge">ERROR</code>, <code class="highlighter-rouge">WARN</code>, <code class="highlighter-rouge">INFO</code>, <code class="highlighter-rouge">DEBUG</code>, <code class="highlighter-rouge">TRACE</code></td>
+      <td>Set the tracing and logging level of StreamsRunner translation and runtime. If specified, overrides all other tracing options. Levels: <code class="highlighter-rouge">ERROR</code>, <code class="highlighter-rouge">WARN</code>, <code class="highlighter-rouge">INFO</code>, <code class="highlighter-rouge">DEBUG</code>, <code class="highlighter-rouge">TRACE</code></td>
+      <td><code class="highlighter-rouge">[null]</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">traceTranslation</code></td>
+      <td>Set the translation trace level for the application. Specify a single level: <code class="highlighter-rouge">ERROR</code>, <code class="highlighter-rouge">WARN</code>, <code class="highlighter-rouge">INFO</code>, <code class="highlighter-rouge">DEBUG</code>, <code class="highlighter-rouge">TRACE</code> to set all loggers to level and/or set individual components. Components include Runner, Streams. Example (set all to <code class="highlighter-rouge">INFO</code> except StreamsRunner logging to <code class="highlighter-rouge">WARN</code>):<br /><br /><code class="highlighter-rouge">INFO,Runner=WARN</code></td>
+      <td><code class="highlighter-rouge">Runner=INFO,Streams=WARN</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">traceRuntime</code></td>
+      <td>Set the runtime trace level for the application. See traceTranslation for more information.</td>
       <td><code class="highlighter-rouge">WARN</code></td>
     </tr>
     <tr>
-      <td><code class="highlighter-rouge">textIOBundleSize</code></td>
-      <td>The batch size for <code class="highlighter-rouge">TextIO.Write</code> transforms that create an output file per batch and per shard. Increase the batch size to decrease the number of output files that are created.</td>
-      <td><code class="highlighter-rouge">50000</code></td>
+      <td><code class="highlighter-rouge">bundleSize</code></td>
+      <td>Controls the maximum number of data tuples in every bundle. Applications should make sure that each bundle does not exceed 2GB.</td>
+      <td><code class="highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">bundleMillis</code></td>
+      <td>Controls the maximum time delay of every bundle. Applications should make sure that each bundle does not exceed 2GB.</td>
+      <td><code class="highlighter-rouge">100</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">parallelWidths</code></td>
+      <td>Sets the parallelism for the entire Beam pipeline or individual transforms via transform step names. A default parallel width for the pipeline is specified as plain number with no step name, and a list of step paths with widths gives the widths for matching steps. If not specified, the parallel width for all transforms will be 1. Step matching is done the same way step names are matched in Beam<code class="highlighter-rouge">MetricsFilter</code>.<br /><br />If a step name matches multiple paths, the first match is used. Likewise, if a default is given multiple times, the first one is used.<br /><br />For example, the following configuration sets the default (entire pipeline parallelism) to width 2, but steps (transforms) that contain the subpath <code class="highlighter-rouge">Device_3/Map</code> will have width 3.<br /><br /> <code class="highlighter-rouge">--parallelWidths=2,Device_3/Map=3</code><br /><br />As the first match is taken, the parallel width for <code class="highlighter-rouge">Device_3/Map</code>  is still 3 in the following configuration.<br /><br /> <code class="highlighter-rouge">--parallelWidths=2,Device_3/Map=3,Map=4</code><br /><br /> For <code class="highlighter-rouge">Source</code> transforms, the runner attempts to match the configured parallel width by calling the <code class="highlighter-rouge">split</code> API. For <code class="highlighter-rouge">UnboundedSource</code>, the runner uses the specified parallel width as the desiredNumSplits argument in <code class="highlighter-rouge">split</code>. For <code class="highlighter-rouge">BoundedSource</code>, the runner uses the specified parallel width to calculate the <code class="highlighter-rouge">desiredBundleSizeBytes</code>. However, the <code class="highlighter-rouge">split</code> API does not guarantee to respect the desired widths. Some sources might be unsplittable, and some only split to a certain number of sub-sources. Source parallel width is set to either the specified width or the number of sub-sources, whichever is smaller. If there were more sub-sources than specified width, one channel could contain multiple sub-source instances.<br /><br />For <code class="highlighter-rouge">KV</code> <code class="highlighter-rouge">PCollection</code>s, it is guaranteed that the same key is always processed in the same parallel instance, correctly preserving per-key states.<br /><br />Changing parallel width (since IBM Streams release 4.3.0) dynamically at runtime will <b>break</b> Beam pipelines.</td>
+      <td><code class="highlighter-rouge">[null]</code></td>
     </tr>
   </tbody>
 </table>
@@ -95,9 +115,9 @@ For the full list of pipeline options, enter  `--help=StreamsPipelineOptions` on
 
 | Parameter | Description | Default value |
 | --- | --- | --- |
-| `restUrl` | The URL for the REST API when you use the `DISTRIBUTED` context type. This parameter is required if you implement metrics in the application. | [null] |
-| `userName` | The user name for basic authentication with REST API when you use the `DISTRIBUTED` context type. | [null] |
-| `userPassword` | The user password for basic authentication for REST API when you use the `DISTRIBUTED` context type. | [null] |
+| `restUrl` | The URL for the REST API when you use the `DISTRIBUTED` context type. This parameter is required if you implement metrics in the application. | The return value of command `streamtool geturl` |
+| `userName` | The user name for basic authentication with REST API when you use the `DISTRIBUTED` context type. | The `user.name` system property |
+| `userPassword` | The user password for basic authentication for REST API when you use the `DISTRIBUTED` context type. If the option value is a path of a readable file (recommended) the password used will be read from first line of the file. Otherwise the option value is used as the password. | [null] |
 
 ## Environment Variables
 These environment variables are not required for Streams Runner to work; however, they can be used for convenience when you launch your Beam application.
@@ -114,7 +134,7 @@ These environment variables are not required for Streams Runner to work; however
         <td>STREAMS_RUNNER_HOME</td>
         <td>The absolute path to the extraction location of the `com.ibm.streams.beam-<runner-version>` directory, where `<runner-version>` is the version of Streams Runner</td>
         <td>Set by using one of the following methods:
-        <ul><li>Source the `$STREAMS_RUNNER_HOME/examples/bin/streams-runner-env.sh' file.</li>
+        <ul><li>Source the `$STREAMS_RUNNER_HOME/examples/bin/streams-runner-env.sh` file.</li>
         <li>Use the  <code class="highlighter-rouge">export</code> command.</li></ul></td>
       </tr>
       <tr>
